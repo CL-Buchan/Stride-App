@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { Text, View } from 'react-native'
 
 type Props = {
@@ -5,6 +6,7 @@ type Props = {
     size?: FontSizeKeys
     colour?: string
     isLightText?: boolean
+    className?: string
 }
 
 const fontSizes = {
@@ -18,10 +20,17 @@ const fontSizes = {
 
 type FontSizeKeys = keyof typeof fontSizes
 
-export default function AppText({ text, size, colour, isLightText }: Props) {
+export default function AppText({
+    text,
+    size,
+    colour,
+    isLightText,
+    className,
+}: Props) {
     return (
         <>
             <Text
+                className={clsx(className)}
                 style={{
                     fontSize: size ? fontSizes[size] : 12.5,
                     color: isLightText

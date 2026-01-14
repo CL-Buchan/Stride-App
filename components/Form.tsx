@@ -1,6 +1,13 @@
 import { Pressable, StyleSheet, TextInput, View } from 'react-native'
 import AppText from './ui/AppText'
 import { useEffect, useState } from 'react'
+import { clsx } from 'clsx'
+
+type Props = {
+    margin?: string
+    success?: string
+    error?: string
+}
 
 interface InputProps {
     label: string
@@ -8,13 +15,15 @@ interface InputProps {
     key: string
 }
 
-export default function Form() {
+export default function Form({ margin, success, error }: Props) {
     const [formData, setFormData] = useState<Record<string, string>>({
         username: '',
         email: '',
         password: '',
     })
     const [isLoading, setIsLoading] = useState(false)
+    const [submitted, setSubmitted] = useState(false)
+    const [pressed, setPressed] = useState(false)
 
     const inputs: InputProps[] = [
         { key: 'username', label: 'Username', placeholder: 'Enter username' },
@@ -27,7 +36,7 @@ export default function Form() {
     }
 
     return (
-        <View>
+        <View className={clsx(margin ? `my-[${margin}]` : 'my-[100px]')}>
             <View className='flex flex-col gap-5 rounded-[15px]'>
                 {inputs.map((input) => (
                     <View
@@ -51,12 +60,30 @@ export default function Form() {
                     </View>
                 ))}
 
-                <Pressable>
+                <View className='mt-5 items-center'>
+                    <Pressable
+                        onPressIn={() => setPressed(true)}
+                        onPressOut={() => setPressed(false)}
+                        className={clsx(
+                            `w-[150px] min-h-[40px] justify-center items-center rounded-[10px] ${
+                                pressed ? 'bg-green-700' : 'bg-green-500'
+                            }`
+                        )}
+                    >
+                        <AppText
+                            text={isLoading ? 'Loading...' : 'Login'}
+                            size='text-base'
+                        />
+                    </Pressable>
+                </View>
+
+                {submitted && (
                     <AppText
-                        text={isLoading ? 'Loading...' : 'Login'}
+                        text={success! || error!}
                         size='text-base'
+                        colour={success ? 'green' : error ? 'red' : 'black'}
                     />
-                </Pressable>
+                )}
             </View>
         </View>
     )

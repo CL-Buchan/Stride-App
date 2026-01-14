@@ -1,12 +1,12 @@
-import Form from '@/components/Form'
 import PageWrapper from '@/components/layout/PageWrapper'
+import ProfileBar from '@/components/ProfileBar'
 import AppText from '@/components/ui/AppText'
 import { useFocusEffect } from 'expo-router';
 import { useCallback } from 'react';
-import { View } from 'react-native'
 import * as Haptics from "expo-haptics"
+import { View } from 'react-native'
 
-export default function Login() {
+export default function Settings() {
     // Fire when screen focused
     useFocusEffect(
         useCallback(() => {
@@ -17,15 +17,16 @@ export default function Login() {
     return (
         <PageWrapper>
             <View className='flex flex-col gap-[30px]'>
-                <AppText
-                    text='Login'
-                    size='text-lg'
-                />
+                <View>
+                    <AppText
+                        text='Settings'
+                        size='text-lg'
+                    />
+                </View>
 
-                <Form
-                    success='You have successfully logged in.'
-                    error='Error logging in, please provide: username, email & password.'
-                />
+                <View>
+                    <ProfileBar />
+                </View>
             </View>
         </PageWrapper>
     )
